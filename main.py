@@ -1,42 +1,38 @@
 import pygame
 from sys import exit
 
-# Animation Mario
+# Mario Animation 
 def Mario_animation():
      global Mario_surf, Mario_run_index
      Mario_run_index += 0.1
      if Mario_run_index >= len(Mario_run) : Mario_run_index = 0
      Mario_surf = Mario_run[int(Mario_run_index)]
 
-def mus_blocker():
+# Check player's input 
+def blocker_key(type_key):
     global i , correct_key
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_DOWN:
+        if event.key == type_key:
             i +=1
             correct_key +=1
             print (correct_key)
         else:
             correct_key = 0
 
-def tur_blocker():
-    global i , correct_key
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_RIGHT:
-            i +=1
-            correct_key +=1
-            print (correct_key)
-        else:
-            correct_key = 0
+# Print the 6 blockes in one screen
+def show_blockers(blocker):
+    show_blocker = 0
+    coordinate = 200
 
-def star_blocker():
-    global i , correct_key
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_UP: 
-            i +=1
-            correct_key +=1
-            print (correct_key)
-        else:
-            correct_key = 0
+    while show_blocker <= 6:
+            screen.blit(blocker_image[blocker], (coordinate, 230))
+            blocker +=1
+            show_blocker +=1
+            coordinate += 100
+
+            if blocker == 18:
+                 blocker = 0
+            
 
 # Game foundation
 pygame.init()
@@ -80,11 +76,11 @@ mus_s = pygame.transform.scale(mus, (70, 70))
 tur = pygame.image.load('grahics/blockers/tur.png').convert()
 tur_s = pygame.transform.scale(tur, (70, 70))
 
-blocker_image = [mus_s, tur_s, star_s, 
+blocker_image = [mus_s, mus_s, star_s, 
                  tur_s, star_s, mus_s,
                  tur_s, mus_s, star_s,
+                 star_s, tur_s, tur_s,
                  mus_s, star_s, tur_s,
-                 star_s,tur_s, mus_s,
                  star_s, mus_s, tur_s]
 
 # Mario running gif pictures
@@ -134,10 +130,10 @@ Mario_surf = Mario_run[Mario_run_index]
 # Timer
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
-time = 10
-text = '10'.rjust(3)
+time = 20
+text = '20'.rjust(3)
 
-# Index, initialize
+# Index initialize
 game_active= False
 correct_key = 0
 score = 0
@@ -163,53 +159,54 @@ while True:
                 text = str (time).rjust(3)
                 print('Extra time! +5s')
 
-
             # Check player's input 
-            if i == 17: tur_blocker()
+            if i == 17: blocker_key(pygame.K_RIGHT)
 
-            elif i == 16: mus_blocker()
+            elif i == 16: blocker_key(pygame.K_DOWN)
 
-            elif i == 15: star_blocker()
+            elif i == 15: blocker_key(pygame.K_UP)
 
-            elif i == 14: mus_blocker()
+            elif i == 14: blocker_key(pygame.K_RIGHT)
 
-            elif i == 13: tur_blocker()
+            elif i == 13: blocker_key(pygame.K_UP)
 
-            elif i == 12: star_blocker()
+            elif i == 12: blocker_key(pygame.K_DOWN)
 
-            elif i == 11: tur_blocker()
+            elif i == 11: blocker_key(pygame.K_RIGHT)
 
-            elif i == 10: star_blocker()
+            elif i == 10: blocker_key(pygame.K_RIGHT)
 
-            elif i == 9: mus_blocker()
+            elif i == 9: blocker_key(pygame.K_UP)
 
-            elif i == 8: star_blocker()
+            elif i == 8: blocker_key(pygame.K_UP)
 
-            elif i == 7: mus_blocker()
+            elif i == 7: blocker_key(pygame.K_DOWN)
 
-            elif i == 6: tur_blocker()
+            elif i == 6: blocker_key(pygame.K_RIGHT)
 
-            elif i == 5: mus_blocker()
+            elif i == 5: blocker_key(pygame.K_DOWN)
 
-            elif i == 4: star_blocker()
+            elif i == 4: blocker_key(pygame.K_UP)
 
-            elif i == 3: tur_blocker()
+            elif i == 3: blocker_key(pygame.K_RIGHT)
 
-            elif i == 2: star_blocker()
+            elif i == 2: blocker_key(pygame.K_UP)
 
-            elif i == 1: tur_blocker()
+            elif i == 1: blocker_key(pygame.K_DOWN)
 
-            else: mus_blocker()
+            else: blocker_key(pygame.K_DOWN)
             
-            # Initialize i when player is fully go throught the blocker list
+            # Initialize i when player is fully go throught the blocker_key list
             if i == 18:
                 i = 0
             
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
                 game_active = True
-                time = 11
+                time = 21
                 correct_key = 0
+                i = 0
+                print("Let's go")
 
     if game_active:          
         screen.blit(sky_surf, (0, 0))
@@ -217,151 +214,44 @@ while True:
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
         Mario_animation()
         screen.blit(Mario_surf, (20, 150))
+
+        # Print the 6 blockes in one screen
+        if i == 17: show_blockers(17)
+
+        elif i == 16: show_blockers(16)
+    
+        elif i == 15: show_blockers(15)
+            
+        elif i == 14: show_blockers(14)
         
-        if i == 17:
-            screen.blit(blocker_image[17], (200, 230))
-            screen.blit(blocker_image[0], (300, 230))
-            screen.blit(blocker_image[1], (400, 230))
-            screen.blit(blocker_image[2], (500, 230))
-            screen.blit(blocker_image[3], (600, 230))
-            screen.blit(blocker_image[4], (700, 230))
-
-        elif i == 16:
-            screen.blit(blocker_image[16], (200, 230))
-            screen.blit(blocker_image[17], (300, 230))
-            screen.blit(blocker_image[0], (400, 230))
-            screen.blit(blocker_image[1], (500, 230))
-            screen.blit(blocker_image[2], (600, 230))
-            screen.blit(blocker_image[3], (700, 230))
-
-        elif i == 15:
-            screen.blit(blocker_image[15], (200, 230))
-            screen.blit(blocker_image[16], (300, 230))
-            screen.blit(blocker_image[17], (400, 230))
-            screen.blit(blocker_image[0], (500, 230))
-            screen.blit(blocker_image[1], (600, 230))
-            screen.blit(blocker_image[2], (700, 230))
-
-        elif i == 14:
-            screen.blit(blocker_image[14], (200, 230))
-            screen.blit(blocker_image[15], (300, 230))
-            screen.blit(blocker_image[16], (400, 230))
-            screen.blit(blocker_image[17], (500, 230))
-            screen.blit(blocker_image[0], (600, 230))
-            screen.blit(blocker_image[1], (700, 230))
-
-        elif i == 13:
-            screen.blit(blocker_image[13], (200, 230))
-            screen.blit(blocker_image[14], (300, 230))
-            screen.blit(blocker_image[15], (400, 230))
-            screen.blit(blocker_image[16], (500, 230))
-            screen.blit(blocker_image[17], (600, 230))
-            screen.blit(blocker_image[0], (700, 230))
-
-        elif i == 12:
-            screen.blit(blocker_image[12], (200, 230))
-            screen.blit(blocker_image[13], (300, 230))
-            screen.blit(blocker_image[14], (400, 230))
-            screen.blit(blocker_image[15], (500, 230))
-            screen.blit(blocker_image[16], (600, 230))
-            screen.blit(blocker_image[17], (700, 230))
-
-        elif i == 11:
-            screen.blit(blocker_image[11], (200, 230))
-            screen.blit(blocker_image[12], (300, 230))
-            screen.blit(blocker_image[13], (400, 230))
-            screen.blit(blocker_image[14], (500, 230))
-            screen.blit(blocker_image[15], (600, 230))
-            screen.blit(blocker_image[16], (700, 230))
-
-        elif i == 10:
-            screen.blit(blocker_image[10], (200, 230))
-            screen.blit(blocker_image[11], (300, 230))
-            screen.blit(blocker_image[12], (400, 230))
-            screen.blit(blocker_image[13], (500, 230))
-            screen.blit(blocker_image[14], (600, 230))
-            screen.blit(blocker_image[15], (700, 230))
-
-        elif i == 9:
-            screen.blit(blocker_image[9], (200, 230))
-            screen.blit(blocker_image[10], (300, 230))
-            screen.blit(blocker_image[11], (400, 230))
-            screen.blit(blocker_image[12], (500, 230))
-            screen.blit(blocker_image[13], (600, 230))
-            screen.blit(blocker_image[14], (700, 230))
-
-        elif i == 8:
-            screen.blit(blocker_image[8], (200, 230))
-            screen.blit(blocker_image[9], (300, 230))
-            screen.blit(blocker_image[10], (400, 230))
-            screen.blit(blocker_image[11], (500, 230))
-            screen.blit(blocker_image[12], (600, 230))
-            screen.blit(blocker_image[13], (700, 230))
-
-        elif i == 7:
-            screen.blit(blocker_image[7], (200, 230))
-            screen.blit(blocker_image[8], (300, 230))
-            screen.blit(blocker_image[9], (400, 230))
-            screen.blit(blocker_image[10], (500, 230))
-            screen.blit(blocker_image[11], (600, 230))
-            screen.blit(blocker_image[12], (700, 230))
-
-        elif i == 6:
-            screen.blit(blocker_image[6], (200, 230))
-            screen.blit(blocker_image[7],(300, 230))
-            screen.blit(blocker_image[8], (400, 230))
-            screen.blit(blocker_image[9], (500, 230))
-            screen.blit(blocker_image[10], (600, 230))
-            screen.blit(blocker_image[11], (700, 230))
-
-        elif i == 5:
-            screen.blit(blocker_image[5], (200, 230))
-            screen.blit(blocker_image[6], (300, 230))
-            screen.blit(blocker_image[7], (400, 230))
-            screen.blit(blocker_image[8], (500, 230))
-            screen.blit(blocker_image[9], (600, 230))
-            screen.blit(blocker_image[10], (700, 230))
-
-        elif i == 4:
-            screen.blit(blocker_image[4], (200, 230))
-            screen.blit(blocker_image[5], (300, 230))
-            screen.blit(blocker_image[6], (400, 230))
-            screen.blit(blocker_image[7], (500, 230))
-            screen.blit(blocker_image[8], (600, 230))
-            screen.blit(blocker_image[9], (700, 230))
-
-        elif i == 3:
-            screen.blit(blocker_image[3], (200, 230))
-            screen.blit(blocker_image[4], (300, 230))
-            screen.blit(blocker_image[5], (400, 230))
-            screen.blit(blocker_image[6], (500, 230))
-            screen.blit(blocker_image[7], (600, 230))
-            screen.blit(blocker_image[8], (700, 230))
-
-        elif i == 2:
-            screen.blit(blocker_image[2], (200, 230))
-            screen.blit(blocker_image[3], (300, 230))
-            screen.blit(blocker_image[4], (400, 230))
-            screen.blit(blocker_image[5], (500, 230))
-            screen.blit(blocker_image[6], (600, 230))
-            screen.blit(blocker_image[7], (700, 230))
-
-        elif i == 1:
-            screen.blit(blocker_image[1], (200, 230))
-            screen.blit(blocker_image[2], (300, 230))
-            screen.blit(blocker_image[3], (400, 230))
-            screen.blit(blocker_image[4], (500, 230))
-            screen.blit(blocker_image[5], (600, 230))
-            screen.blit(blocker_image[6], (700, 230))
-
-        else:
-            screen.blit(blocker_image[0], (200, 230))
-            screen.blit(blocker_image[1], (300, 230))
-            screen.blit(blocker_image[2], (400, 230))
-            screen.blit(blocker_image[3], (500, 230))
-            screen.blit(blocker_image[4], (600, 230))
-            screen.blit(blocker_image[5], (700, 230))
-
+        elif i == 13: show_blockers(13)
+            
+        elif i == 12: show_blockers(12)
+            
+        elif i == 11: show_blockers(11)
+           
+        elif i == 10: show_blockers(10)
+            
+        elif i == 9: show_blockers(9)
+           
+        elif i == 8: show_blockers(8)
+            
+        elif i == 7: show_blockers(7)
+            
+        elif i == 6: show_blockers(6)
+           
+        elif i == 5: show_blockers(5)
+            
+        elif i == 4: show_blockers(4)
+            
+        elif i == 3: show_blockers(3)
+            
+        elif i == 2: show_blockers(2)
+            
+        elif i == 1: show_blockers(1)
+            
+        else: show_blockers(0)
+            
         if time == 0:
             game_active = False
 
@@ -389,4 +279,4 @@ while True:
         
     
     pygame.display.update()
-    clock.tick(60)     
+    clock.tick(60) 
