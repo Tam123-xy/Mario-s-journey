@@ -2,22 +2,24 @@ import pygame
 from sys import exit
 
 # Mario Animation 
-def Mario_animation():
+def Mario_animation(): 
      global Mario_surf, Mario_run_index
      Mario_run_index += 0.1
      if Mario_run_index >= len(Mario_run) : Mario_run_index = 0
      Mario_surf = Mario_run[int(Mario_run_index)]
 
 # Check player's input 
-def blocker_key(type_key):
-    global i , correct_key
+def blocker_key(key):
+    global i , correct_key, score
     if event.type == pygame.KEYDOWN:
-        if event.key == type_key:
+        if event.key == key:
             i +=1
             correct_key +=1
             print (correct_key)
+            score +=1
         else:
             correct_key = 0
+
 
 # Print the 6 blockes in one screen
 def show_blockers(blocker):
@@ -33,7 +35,6 @@ def show_blockers(blocker):
             if blocker == 18:
                  blocker = 0
             
-
 # Game foundation
 pygame.init()
 pygame.mixer.init()
@@ -51,17 +52,17 @@ Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,165))
 game_name = font.render("Mario's journey",False, ('White'))
 game_name_rect = game_name.get_rect(center=(400,50))
 
-game_message = font2.render('Send the star to the sky by pressing arrow key UP!',False, ('White'))
-game_message_rect = game_message.get_rect(center = (400,280))
+star_message = font2.render('Send the star to the sky by pressing arrow key UP!',False, ('White'))
+star_message_rect = star_message.get_rect(center = (400,280))
 
-game_message2 = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN!',False, ('White'))
-game_message2_rect = game_message2.get_rect(center = (400,310))
+mus_message = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN!',False, ('White'))
+mus_message_rect = mus_message.get_rect(center = (400,310))
 
-game_message3 = font2.render('Kick off the turtle by pressing arrow key RIGHT!',False, ('White'))
-game_message3_rect = game_message3.get_rect(center = (400,340))
+tur_message = font2.render('Kick off the turtle by pressing arrow key RIGHT!',False, ('White'))
+tur_message_rect = tur_message.get_rect(center = (400,340))
 
-game_message4 = font.render('Press SPACE to start the game!',False, ('Black'))
-game_message4_rect = game_message3.get_rect(center = (450,370))
+start_message = font.render('Press SPACE to start the game!',False, ('Black'))
+start_message_rect = star_message.get_rect(center = (450,370))
 
 # Game surface
 sky_surf = pygame.image.load('grahics/sky.jpg').convert()
@@ -130,13 +131,15 @@ Mario_surf = Mario_run[Mario_run_index]
 # Timer
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
-time = 20
-text = '20'.rjust(3)
+time = 5
+text = '5'.rjust(3)
 
 # Index initialize
 game_active= False
 correct_key = 0
 score = 0
+highest_score = 0
+last_score = 0
 
 i=0
 while True:
@@ -203,17 +206,24 @@ while True:
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
                 game_active = True
-                time = 21
+                last_score = score
+                score = 0
+                time = 6
                 correct_key = 0
                 i = 0
                 print("Let's go")
 
+                if last_score > highest_score:
+                     highest_score = last_score
+            
     if game_active:          
         screen.blit(sky_surf, (0, 0))
         screen.blit(ground_surf, (0, 300))
-        screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
-        Mario_animation()
         screen.blit(Mario_surf, (20, 150))
+        Mario_animation()
+        screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
+        screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
+        
 
         # Print the 6 blockes in one screen
         if i == 17: show_blockers(17)
@@ -255,28 +265,35 @@ while True:
         if time == 0:
             game_active = False
 
-    else:
+    else:  
         screen.fill((94,129,162))
         screen.blit(Mario_stand_scale,Maria_stand_rect)
         screen.blit(game_name,game_name_rect)
-        screen.blit(game_message,game_message_rect)
-        screen.blit(game_message2,game_message2_rect)  
-        screen.blit(game_message3,game_message3_rect)  
-        screen.blit(game_message4,game_message4_rect)  
-        #####
-        # screen.fill((94,129,162))
-        # screen.blit(Mario_stand_scale,Maria_stand_rect)
-        # screen.blit(game_name,game_name_rect)
 
-        # if score == 0:
-        #     screen.blit(game_message,game_message_rect)
-        #     screen.blit(game_message2,game_message2_rect)
-        #     screen.blit(game_message3,game_message3_rect)
-        #     screen.blit(game_message4,game_message4_rect)
+        if highest_score == 1:
+            screen.blit(mus_message,mus_message_rect)
+            screen.blit(star_message,star_message_rect)
+            screen.blit(tur_message,tur_message_rect)
+            screen.blit(start_message,start_message_rect)
 
-        #elif score <= highest score:
-        #elif scre > highest score:
+        elif last_score > highest_score:
+            screen.blit(font.render(f'Your score is {last_score}',True, ('White')),(400,280))
+            screen.blit(font.render(f'Your highest score is {highest_score}',True, ('White')),(400,310)) 
+            screen.blit(font.render('Try to break your heighestt score!',True, ('White')),(400,310))
+
+        #      score_message = font.render(f'Your score is {score}',False, ('White'))
+        #      screen.blit(score_message_rect = score_message.get_rect(center = (400,280)))
+
+        #      highest_message = font.render(f'Your highest score is {higher_score}',False, ('White'))
+        #      screen.blit(highest_message_rect = score_message.get_rect(center = (400,310)))
+             
+        #      try_message = font.render('Try to break your heighestt score!',False, ('White'))
+        #      screen.blit(try_message_rect = try_message.get_rect(center = (400,340)))
+             
+        
+             
+        # elif score > highest_score:
         
     
     pygame.display.update()
-    clock.tick(60) 
+    clock.tick(60)
