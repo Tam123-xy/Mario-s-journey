@@ -8,6 +8,7 @@ def Mario_animation():
      if Mario_run_index >= len(Mario_run) : Mario_run_index = 0
      Mario_surf = Mario_run[int(Mario_run_index)]
 
+<<<<<<< HEAD
 # Background Music
 from pygame import mixer
 mixer.init()
@@ -21,6 +22,8 @@ warning = pygame.mixer.Sound('warning.wav')
 herewego = pygame.mixer.Sound('herewego.wav')
 score = pygame.mixer.Sound('score.wav')
 
+=======
+>>>>>>> 4726c400c3cad9c1103233e70fc3098c2a244a19
 # Check player's input 
 def blocker_key(key):
     global i , correct_key, score
@@ -141,8 +144,13 @@ Mario_surf = Mario_run[Mario_run_index]
 # Timer
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
+<<<<<<< HEAD
 time = 7
 text = '7'.rjust(3)
+=======
+time = 5
+text = '5'.rjust(3)
+>>>>>>> 4726c400c3cad9c1103233e70fc3098c2a244a19
 
 # Index initialize
 game_active= False
@@ -173,9 +181,12 @@ while True:
                 print('Extra time! +5s')
                 addtime.play()
 
+<<<<<<< HEAD
             if time == 3:
                 warning.play()
 
+=======
+>>>>>>> 4726c400c3cad9c1103233e70fc3098c2a244a19
             # Check player's input 
             if i == 17: blocker_key(pygame.K_RIGHT)
 
@@ -224,7 +235,11 @@ while True:
                 game_active = True
                 last_score = score
                 score = 0
+<<<<<<< HEAD
                 time = 8
+=======
+                time = 6
+>>>>>>> 4726c400c3cad9c1103233e70fc3098c2a244a19
                 correct_key = 0
                 i = 0
                 print("Let's go")
@@ -299,6 +314,7 @@ while True:
             screen.blit(font.render(f'Your highest score is {highest_score}',True, ('White')),(400,310)) 
             screen.blit(font.render('Try to break your heighestt score!',True, ('White')),(400,310))
 
+<<<<<<< HEAD
         #   score_message = font.render(f'Your score is {score}',False, ('White'))
         #   screen.blit(score_message_rect = score_message.get_rect(center = (400,280)))
 
@@ -310,6 +326,20 @@ while True:
              
              
         #elif score > highest_score:
+=======
+        #      score_message = font.render(f'Your score is {score}',False, ('White'))
+        #      screen.blit(score_message_rect = score_message.get_rect(center = (400,280)))
+
+        #      highest_message = font.render(f'Your highest score is {higher_score}',False, ('White'))
+        #      screen.blit(highest_message_rect = score_message.get_rect(center = (400,310)))
+             
+        #      try_message = font.render('Try to break your heighestt score!',False, ('White'))
+        #      screen.blit(try_message_rect = try_message.get_rect(center = (400,340)))
+             
+        
+             
+        # elif score > highest_score:
+>>>>>>> 4726c400c3cad9c1103233e70fc3098c2a244a19
         
     
     pygame.display.update()
