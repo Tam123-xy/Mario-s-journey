@@ -270,7 +270,7 @@ while True:
         screen.blit(Mario_stand_scale,Maria_stand_rect)
         screen.blit(game_name,game_name_rect)
 
-        if highest_score == 1:
+        if highest_score == 0:
             screen.blit(mus_message,mus_message_rect)
             screen.blit(star_message,star_message_rect)
             screen.blit(tur_message,tur_message_rect)
