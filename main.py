@@ -20,16 +20,13 @@ def blocker_key(key):
         else:
             correct_key = 0
 
-
 # Print the 6 blockes in one screen
 def show_blockers(blocker):
-    show_blocker = 0
     coordinate = 200
 
-    while show_blocker <= 6:
+    while coordinate <= 700:
             screen.blit(blocker_image[blocker], (coordinate, 230))
             blocker +=1
-            show_blocker +=1
             coordinate += 100
 
             if blocker == 18:
@@ -155,10 +152,10 @@ while True:
                         time -=1
                         text = str (time).rjust(3)
             
-            # Successfully passed through 5 blockers continually
+            # Successfully passed through 5 blockers continually, an extra 3 seconds will be added in the timer
             if correct_key == 5:
                 correct_key = 0
-                time +=5
+                time +=3
                 text = str (time).rjust(3)
                 print('Extra time! +5s')
 
