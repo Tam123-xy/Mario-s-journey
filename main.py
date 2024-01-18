@@ -10,16 +10,17 @@ def Mario_animation():
 
 # Check player's input 
 def blocker_key(key):
-    global i , correct_key, score
+    global i , correct_key, score , highest_score, last_highest_score
     if event.type == pygame.KEYDOWN:
         if event.key == key:
             i +=1
             correct_key +=1
             print (correct_key)
             score +=1
+
         else:
             correct_key = 0
-
+     
 # Print the 6 blockes in one screen
 def show_blockers(blocker):
     coordinate = 200
@@ -60,6 +61,12 @@ tur_message_rect = tur_message.get_rect(center = (400,340))
 
 start_message = font.render('Press SPACE to start the game!',False, ('Black'))
 start_message_rect = star_message.get_rect(center = (450,370))
+
+try_message = font.render('You are almost there! Try to break your heighest score!',False, ('White'))
+try_message_rect = try_message.get_rect(center = (400,340))
+
+congr_message = font.render('Well done! You break your highest score! ',False, ('White'))
+congr_message_rect = congr_message.get_rect(center = (400,340))
 
 # Game surface
 sky_surf = pygame.image.load('grahics/sky.jpg').convert()
@@ -136,6 +143,7 @@ game_active= False
 correct_key = 0
 score = 0
 highest_score = 0
+last_highest_score = 0
 last_score = 0
 
 i=0
@@ -152,12 +160,12 @@ while True:
                         time -=1
                         text = str (time).rjust(3)
             
-            # Successfully passed through 5 blockers continually, an extra 3 seconds will be added in the timer
-            if correct_key == 5:
+            # Successfully passed through 6 blockers continually, an extra 3 seconds will be added in the timer
+            if correct_key == 6:
                 correct_key = 0
                 time +=3
                 text = str (time).rjust(3)
-                print('Extra time! +5s')
+                print('Extra time! +3s')
 
             # Check player's input 
             if i == 17: blocker_key(pygame.K_RIGHT)
@@ -195,7 +203,7 @@ while True:
             elif i == 1: blocker_key(pygame.K_DOWN)
 
             else: blocker_key(pygame.K_DOWN)
-            
+
             # Initialize i when player is fully go throught the blocker_key list
             if i == 18:
                 i = 0
@@ -203,15 +211,11 @@ while True:
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
                 game_active = True
-                last_score = score
                 score = 0
                 time = 6
                 correct_key = 0
                 i = 0
                 print("Let's go")
-
-                if last_score > highest_score:
-                     highest_score = last_score
             
     if game_active:          
         screen.blit(sky_surf, (0, 0))
@@ -262,35 +266,43 @@ while True:
         if time == 0:
             game_active = False
 
-    else:  
+        # if score > highest_score:
+        #         last_score = score
+        #         highest_score = last_score
+        #         last_highest_score = highest_score
+        #         print(f'highest{highest_score} last {last_highest_score} score{score}')
+        
+
+    else: 
         screen.fill((94,129,162))
         screen.blit(Mario_stand_scale,Maria_stand_rect)
         screen.blit(game_name,game_name_rect)
 
-        if highest_score == 0:
+        score_message = font.render(f'Your score is {score}' ,False, ('White'))
+        score_message_rect = score_message.get_rect(center = (400,280))
+
+        highest_score_message = font.render(f'Your highest score is {highest_score}' ,False, ('White'))
+        highest_score_message_rect = highest_score_message.get_rect(center = (400,310))
+
+        last_highest_score_message = font.render(f'Your last highest score is {last_highest_score}' ,False, ('White'))
+        last_highest_score_message_rect = highest_score_message.get_rect(center = (400,310))
+
+        if score == 0:
             screen.blit(mus_message,mus_message_rect)
             screen.blit(star_message,star_message_rect)
             screen.blit(tur_message,tur_message_rect)
             screen.blit(start_message,start_message_rect)
 
-        elif last_score > highest_score:
-            screen.blit(font.render(f'Your score is {last_score}',True, ('White')),(400,280))
-            screen.blit(font.render(f'Your highest score is {highest_score}',True, ('White')),(400,310)) 
-            screen.blit(font.render('Try to break your heighestt score!',True, ('White')),(400,310))
+        elif last_score <= highest_score: # not 
+            screen.blit(score_message,score_message_rect)
+            screen.blit(highest_score_message,highest_score_message_rect)
+            screen.blit(try_message,try_message_rect)
 
-        #      score_message = font.render(f'Your score is {score}',False, ('White'))
-        #      screen.blit(score_message_rect = score_message.get_rect(center = (400,280)))
-
-        #      highest_message = font.render(f'Your highest score is {higher_score}',False, ('White'))
-        #      screen.blit(highest_message_rect = score_message.get_rect(center = (400,310)))
-             
-        #      try_message = font.render('Try to break your heighestt score!',False, ('White'))
-        #      screen.blit(try_message_rect = try_message.get_rect(center = (400,340)))
-             
-        
-             
-        # elif score > highest_score:
-        
+        elif last_highest_score < highest_score: #break the highest score
+            screen.blit(congr_message,congr_message_rect)
+            screen.blit(score_message,score_message_rect)
+            screen.blit(highest_score_message,highest_score_message_rect)
+            screen.blit(last_highest_score_message,last_highest_score_message_rect)
     
     pygame.display.update()
     clock.tick(60)
