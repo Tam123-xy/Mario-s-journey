@@ -192,6 +192,7 @@ while True:
                 time +=2
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
+                addtime.play()
 
             if time == 3:
                 warning.play()
