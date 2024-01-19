@@ -19,6 +19,12 @@ def Mario_animation():
      if Mario_run_index >= len(Mario_run) : Mario_run_index = 0
      Mario_surf = Mario_run[int(Mario_run_index)]
 
+def Mario_score_animation():
+    global Mario_score_surf, Mario_score_index
+    Mario_score_index += 0.1
+    if Mario_score_index >= len(Mario_score) : Mario_score_index = 0
+    Mario_score_surf = Mario_score[int(Mario_score_index)]
+    
 # Check player's input 
 def blocker_key(key):
     global blocker_image_index , correct_key, score
@@ -42,7 +48,7 @@ def show_blockers(blocker):
 
             if blocker == 18:
                  blocker = 0
-            
+
 # Game foundation
 pygame.init()
 pygame.key.get_focused()
@@ -78,7 +84,7 @@ star_message_rect = star_message.get_rect(center = (400,280))
 mus_message = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN!',False, ('White'))
 mus_message_rect = mus_message.get_rect(center = (400,310))
 
-tur_message = font2.render('Kick off the turtle by pressing arrow key RiGHT!',False, ('White'))
+tur_message = font2.render('Kick off the turtle by pressing arrow key RIGHT!',False, ('White'))
 tur_message_rect = tur_message.get_rect(center = (400,340))
 
 start_message = font.render('Press SPACE to start the game!',False, ('Black'))
@@ -97,14 +103,14 @@ congr_message_rect = congr_message.get_rect(center = (400,340))
 sky_surf = pygame.image.load('grahics/sky.jpg').convert()
 ground_surf = pygame.image.load('grahics/ground.png').convert()
 
-star = pygame.image.load('grahics/blockers/star.png').convert()
+star = pygame.image.load('grahics/blockers/star.png').convert_alpha()
 star_s = pygame.transform.scale(star, (70, 70))
 
 mus = pygame.image.load('grahics/blockers/mus.png').convert()
 mus_s = pygame.transform.scale(mus, (70, 70))
 
-tur = pygame.image.load('grahics/blockers/tur.png').convert()
-tur_s = pygame.transform.scale(tur, (70, 70))
+tur = pygame.image.load('grahics/blockers/tur.png').convert_alpha()
+tur_s = pygame.transform.scale(tur, (80, 70))
 
 blocker_image = [mus_s, mus_s, star_s, 
                  tur_s, star_s, mus_s,
@@ -116,41 +122,41 @@ blocker_image = [mus_s, mus_s, star_s,
 blocker_image_index = 0
 
 # Mario running gif pictures
-Mario_run_surf1 = pygame.image.load('grahics/Mario/1.png').convert()
-Mario_run_scale1 = pygame.transform.scale(Mario_run_surf1, (150, 150))
+Mario_run_surf1 = pygame.image.load('grahics/run/frame_00_delay-0.1s.png').convert_alpha()
+Mario_run_scale1 = pygame.transform.scale(Mario_run_surf1, (200, 200))
 
-Mario_run_surf2 = pygame.image.load('grahics/Mario/2.png').convert()
-Mario_run_scale2 = pygame.transform.scale(Mario_run_surf2, (150, 150))
+Mario_run_surf2 = pygame.image.load('grahics/run/frame_01_delay-0.1s.png').convert_alpha()
+Mario_run_scale2 = pygame.transform.scale(Mario_run_surf2, (200, 200))
 
-Mario_run_surf3 = pygame.image.load('grahics/Mario/3.png').convert()
-Mario_run_scale3 = pygame.transform.scale(Mario_run_surf3, (150, 150))
+Mario_run_surf3 = pygame.image.load('grahics/run/frame_02_delay-0.1s.png').convert_alpha()
+Mario_run_scale3 = pygame.transform.scale(Mario_run_surf3, (200, 200))
 
-Mario_run_surf4 = pygame.image.load('grahics/Mario/4.png').convert()
-Mario_run_scale4 = pygame.transform.scale(Mario_run_surf4, (150, 150))
+Mario_run_surf4 = pygame.image.load('grahics/run/frame_03_delay-0.1s.png').convert_alpha()
+Mario_run_scale4 = pygame.transform.scale(Mario_run_surf4, (200, 200))
 
-Mario_run_surf5 = pygame.image.load('grahics/Mario/5.png').convert()
-Mario_run_scale5 = pygame.transform.scale(Mario_run_surf5, (150, 150))
+Mario_run_surf5 = pygame.image.load('grahics/run/frame_04_delay-0.1s.png').convert_alpha()
+Mario_run_scale5 = pygame.transform.scale(Mario_run_surf5, (200, 200))
 
-Mario_run_surf6 = pygame.image.load('grahics/Mario/6.png').convert()
-Mario_run_scale6 = pygame.transform.scale(Mario_run_surf6, (150, 150))
+Mario_run_surf6 = pygame.image.load('grahics/run/frame_05_delay-0.1s.png').convert_alpha()
+Mario_run_scale6 = pygame.transform.scale(Mario_run_surf6, (200, 200))
 
-Mario_run_surf7 = pygame.image.load('grahics/Mario/7.png').convert()
-Mario_run_scale7 = pygame.transform.scale(Mario_run_surf7, (150, 150))
+Mario_run_surf7 = pygame.image.load('grahics/run/frame_06_delay-0.1s.png').convert_alpha()
+Mario_run_scale7 = pygame.transform.scale(Mario_run_surf7, (200, 200))
 
-Mario_run_surf8 = pygame.image.load('grahics/Mario/8.png').convert()
-Mario_run_scale8 = pygame.transform.scale(Mario_run_surf8, (150, 150))
+Mario_run_surf8 = pygame.image.load('grahics/run/frame_07_delay-0.1s.png').convert_alpha()
+Mario_run_scale8 = pygame.transform.scale(Mario_run_surf8, (200, 200))
 
-Mario_run_surf9 = pygame.image.load('grahics/Mario/9.png').convert()
-Mario_run_scale9 = pygame.transform.scale(Mario_run_surf9, (150, 150))
+Mario_run_surf9 = pygame.image.load('grahics/run/frame_08_delay-0.1s.png').convert_alpha()
+Mario_run_scale9 = pygame.transform.scale(Mario_run_surf9, (200, 200))
 
-Mario_run_surf10 = pygame.image.load('grahics/Mario/10.png').convert()
-Mario_run_scale10 = pygame.transform.scale(Mario_run_surf10, (150, 150))
+Mario_run_surf10 = pygame.image.load('grahics/run/frame_09_delay-0.1s.png').convert_alpha()
+Mario_run_scale10 = pygame.transform.scale(Mario_run_surf10, (200, 200))
 
-Mario_run_surf11 = pygame.image.load('grahics/Mario/11.png').convert()
-Mario_run_scale11 = pygame.transform.scale(Mario_run_surf11, (150, 150))
+Mario_run_surf11 = pygame.image.load('grahics/run/frame_10_delay-0.1s.png').convert_alpha()
+Mario_run_scale11 = pygame.transform.scale(Mario_run_surf11, (200, 200))
 
-Mario_run_surf12 = pygame.image.load('grahics/Mario/12.png').convert()
-Mario_run_scale12 = pygame.transform.scale(Mario_run_surf12, (150, 150))
+Mario_run_surf12 = pygame.image.load('grahics/run/frame_11_delay-0.1s.png').convert_alpha()
+Mario_run_scale12 = pygame.transform.scale(Mario_run_surf12, (200, 200))
 
 Mario_run =[Mario_run_scale1, Mario_run_scale2, Mario_run_scale3, Mario_run_scale4, Mario_run_scale5,
             Mario_run_scale6, Mario_run_scale7, Mario_run_scale8, Mario_run_scale9, Mario_run_scale10,
@@ -158,6 +164,37 @@ Mario_run =[Mario_run_scale1, Mario_run_scale2, Mario_run_scale3, Mario_run_scal
 
 Mario_run_index =0
 Mario_surf = Mario_run[Mario_run_index]
+
+Mario_score_surf1 = pygame.image.load('grahics/score/frame_0_delay-0.1s.png').convert_alpha()
+Mario_score_scale1 = pygame.transform.scale(Mario_score_surf1, (200, 200))
+
+Mario_score_surf2 = pygame.image.load('grahics/score/frame_1_delay-0.1s.png').convert_alpha()
+Mario_score_scale2 = pygame.transform.scale(Mario_score_surf2, (200, 200))
+
+Mario_score_surf3 = pygame.image.load('grahics/score/frame_2_delay-0.1s.png').convert_alpha()
+Mario_score_scale3 = pygame.transform.scale(Mario_score_surf3, (200, 200))
+
+Mario_score_surf4 = pygame.image.load('grahics/score/frame_3_delay-0.1s.png').convert_alpha()
+Mario_score_scale4 = pygame.transform.scale(Mario_score_surf4, (200, 200))
+
+Mario_score_surf5 = pygame.image.load('grahics/score/frame_4_delay-0.1s.png').convert_alpha()
+Mario_score_scale5 = pygame.transform.scale(Mario_score_surf5, (200, 200))
+
+Mario_score_surf6 = pygame.image.load('grahics/score/frame_5_delay-0.1s.png').convert_alpha()
+Mario_score_scale6 = pygame.transform.scale(Mario_score_surf6, (200, 200))
+
+Mario_score_surf7 = pygame.image.load('grahics/score/frame_6_delay-0.1s.png').convert_alpha()
+Mario_score_scale7 = pygame.transform.scale(Mario_score_surf7, (200, 200))
+
+Mario_score_surf8 = pygame.image.load('grahics/score/frame_7_delay-0.1s.png').convert_alpha()
+Mario_score_scale8 = pygame.transform.scale(Mario_score_surf8, (200, 200))
+
+Mario_score =[Mario_score_scale1, Mario_score_scale2, Mario_score_scale3, Mario_score_scale4, Mario_score_scale5,
+              Mario_score_scale6, Mario_score_scale7, Mario_score_scale8]
+
+Mario_score_index =0
+Mario_score_surf = Mario_score[Mario_score_index]
+
 
 # Timer
 clock = pygame.time.Clock()
@@ -253,6 +290,7 @@ while True:
                 print("Here we go!")
                 herewego.play()
                 background.play()
+
                 def save_score(score, highest_score):
                     with open("score.txt", "w") as file:
                         file.write(f"{score}\n{highest_score}")  
@@ -273,7 +311,7 @@ while True:
     if game_active:          
         screen.blit(sky_surf, (0, 0))
         screen.blit(ground_surf, (0, 300))
-        screen.blit(Mario_surf, (20, 150))
+        screen.blit(Mario_surf, (-15, 100))
         Mario_animation()
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
@@ -324,8 +362,11 @@ while True:
     else: 
         screen.fill((94,129,162))
         screen.blit(Mario_stand_scale,Maria_stand_rect)
+        # screen.blit(Mario_score_surf, (-15, 100))
+        # Mario_score_animation()
         screen.blit(game_name,game_name_rect)
         screen.blit(start_message,start_message_rect)
+        
 
         score_message = font.render(f'Your score is {score}' ,False, ('White'))
         score_message_rect = score_message.get_rect(center = (400,280))
