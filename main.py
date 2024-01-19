@@ -65,7 +65,7 @@ herewego = pygame.mixer.Sound('audio/herewego.wav')
 score = pygame.mixer.Sound('audio/score.wav')
 
 # intro and score screen surface
-Mario_stand = pygame.image.load('grahics/Mario_stand.png').convert()
+Mario_stand = pygame.image.load('grahics/Mario_stand.png').convert_alpha()
 Mario_stand_scale = pygame.transform.rotozoom(Mario_stand,0,0.8)
 Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,165))
 
