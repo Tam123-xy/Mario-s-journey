@@ -84,11 +84,11 @@ tur_message_rect = tur_message.get_rect(center = (400,340))
 start_message = font.render('Press SPACE to start the game!',False, ('Black'))
 start_message_rect = star_message.get_rect(center = (450,370))
 
-almost_message = font.render('You are almost there!',False, ('White'))
-almost_message_rect = almost_message.get_rect(center = (400,340))
+#almost_message = font.render('You are almost there!',False, ('White'))
+#almost_message_rect = almost_message.get_rect(center = (400,340))
 
 try_message = font.render('Try to break your heighest score!',False, ('White'))
-try_message_rect = try_message.get_rect(center = (400,300))
+try_message_rect = try_message.get_rect(center = (400,340))
 
 congr_message = font.render('Well done! You break your highest score! ',False, ('White'))
 congr_message_rect = congr_message.get_rect(center = (400,340))
@@ -193,6 +193,9 @@ while True:
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
 
+            if time == 3:
+                warning.play()
+
             # Check player's input 
             if blocker_image_index == 17: blocker_key(pygame.K_RIGHT)
 
@@ -249,7 +252,23 @@ while True:
                 print("Here we go!")
                 herewego.play()
                 background.play()
-            
+                def save_score(score, highest_score):
+                    with open("score.txt", "w") as file:
+                        file.write(f"{score}\n{highest_score}")  
+                def load_score():
+                    try:
+                        with open("score.txt", "r") as file:
+                            lines = file.readlines()
+                            if len(lines) >= 2 :
+                                score = 0
+                                highest_score = int(lines[1].strip())
+                                return score, highest_score
+                            else:
+                                return 0, 0
+                    except FileNotFoundError:                        
+                        return 0, 0
+                score, highest_score = load_score()
+             
     if game_active:          
         screen.blit(sky_surf, (0, 0))
         screen.blit(ground_surf, (0, 300))
@@ -257,7 +276,8 @@ while True:
         Mario_animation()
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
-        
+
+        save_score(score, highest_score)
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
 
@@ -316,8 +336,8 @@ while True:
         last_highest_score_message_rect = last_highest_score_message.get_rect(center = (400,340))
 
         score_break_highest_message = font.render(f'Your highest score is {score}' ,False, ('White'))
-        score_break_highest_message_rect = score_break_highest_message.get_rect(center = (400,310))
-
+        score_break_highest_message_rect = score_break_highest_message.get_rect(center = (400,310)) 
+        
         if score == 0:
             screen.blit(mus_message,mus_message_rect)
             screen.blit(star_message,star_message_rect)
@@ -328,13 +348,13 @@ while True:
             screen.blit(score_message,score_message_rect)
             screen.blit(highest_score_message,highest_score_message_rect)
             screen.blit(try_message,try_message_rect)
-            screen.blit(almost_message,almost_message_rect)
+            #screen.blit(almost_message,almost_message_rect)
 
         #win
         elif score ==  highest_score and score!= 0: 
             screen.blit(score_break_highest_message, score_break_highest_message_rect)
             screen.blit(last_highest_score_message,last_highest_score_message_rect)
-            screen.blit(congr_message,congr_message_rect)
-            
+            #screen.blit(congr_message,congr_message_rect)
+
     pygame.display.update()
     clock.tick(60)
