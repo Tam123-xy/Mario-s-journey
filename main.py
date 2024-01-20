@@ -406,7 +406,6 @@ while True:
             
         else: show_blockers(0)
         
-
         # If the timmer reaches zero the game will end and go to lose or win screen
         if time == 0:
             game_active = False
