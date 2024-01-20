@@ -276,7 +276,7 @@ while True:
             # initialize blocker_image_index when player is fully go throught the blocker_image list
             if blocker_image_index == 18:
                 blocker_image_index = 0
-            
+                        
             # Compare the score is beggest than highest score every single blocker loop
             while score > highest_score:
              highest_score = score
@@ -290,9 +290,26 @@ while True:
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
+                previous_score = 0
+                previous_score = score
                 print("Here we go!")
                 herewego.play()
                 background.play()
+
+                def save_previous_score(previous_score):
+                    with open("score2.txt", "w") as file:
+                        file.write(str(previous_score))
+                def load_previous_score():
+                    try:
+                        with open('score2.txt', 'r') as file:
+                            previous_score = int(file.read().strip())
+                            previous_score = score
+                            save_previous_score(previous_score)
+                            return previous_score
+                    except FileNotFoundError:
+                        return  0
+                previous_score = score
+                previous_score = load_previous_score()
 
                 def save_score(score, highest_score):
                     with open("score.txt", "w") as file:
@@ -317,10 +334,13 @@ while True:
         screen.blit(Mario_run_surf, (-15, 100))
         Mario_run_animation()
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
+        screen.blit(font.render(f'Highest score: {highest_score - difference}',True,('White')),(510,18))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
+        save_previous_score(previous_score)
         save_score(score, highest_score)
 
+        
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
 
@@ -363,14 +383,14 @@ while True:
             die.play()
             background.stop()
 
-    else: 
+    else:  
         screen.fill((94,129,162)) 
 
         score_message = font3.render(f'Your score is {score}' ,False, ('White'))
-        score_message_rect = score_message.get_rect(center = (400,200))
+        score_message_rect = score_message.get_rect(center = (400,270))
 
         highest_score_message = font3.render(f'Your highest score is {highest_score}' ,False, ('White'))
-        highest_score_message_rect = highest_score_message.get_rect(center = (400,270))
+        highest_score_message_rect = highest_score_message.get_rect(center = (400,200))
 
         last_highest_score_message = font3.render(f'Your previous highest score is {highest_score - difference}' ,False, ('White'))
         last_highest_score_message_rect = last_highest_score_message.get_rect(center = (465,200))
