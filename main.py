@@ -12,12 +12,12 @@
 import pygame
 from sys import exit
 
-# Mario Animation 
-def Mario_animation(): 
-     global Mario_surf, Mario_run_index
+# Mario animation 
+def Mario_run_animation(): 
+     global Mario_run_surf, Mario_run_index
      Mario_run_index += 0.1
      if Mario_run_index >= len(Mario_run) : Mario_run_index = 0
-     Mario_surf = Mario_run[int(Mario_run_index)]
+     Mario_run_surf = Mario_run[int(Mario_run_index)]
 
 def Mario_score_animation():
     global Mario_score_surf, Mario_score_index
@@ -56,6 +56,7 @@ screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Mario's journey") 
 font = pygame.font.Font('font/font.ttf', 50)
 font2 = pygame.font.Font('font/font.ttf', 40)
+font3 = pygame.font.Font('font/font.ttf', 60)
 
 # Background music
 from pygame import mixer
@@ -70,7 +71,7 @@ warning = pygame.mixer.Sound('audio/warning.wav')
 herewego = pygame.mixer.Sound('audio/herewego.wav')
 score = pygame.mixer.Sound('audio/score.wav')
 
-# intro and score screen surface
+# Intro and score screen surface
 Mario_stand = pygame.image.load('grahics/Mario_stand.png').convert_alpha()
 Mario_stand_scale = pygame.transform.rotozoom(Mario_stand,0,0.8)
 Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,165))
@@ -78,26 +79,27 @@ Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,165))
 game_name = font.render("Mario's journey",False, ('White'))
 game_name_rect = game_name.get_rect(center=(400,50))
 
-star_message = font2.render('Send the star to the sky by pressing arrow key UP!',False, ('White'))
+star_message = font2.render('Send the star to the sky by pressing arrow key UP !',False, ('White'))
 star_message_rect = star_message.get_rect(center = (400,280))
 
-mus_message = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN!',False, ('White'))
+mus_message = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN !',False, ('White'))
 mus_message_rect = mus_message.get_rect(center = (400,310))
 
-tur_message = font2.render('Kick off the turtle by pressing arrow key RIGHT!',False, ('White'))
+tur_message = font2.render('Kick off the turtle by pressing arrow key RIGHT !',False, ('White'))
 tur_message_rect = tur_message.get_rect(center = (400,340))
 
-start_message = font.render('Press SPACE to start the game!',False, ('Black'))
-start_message_rect = star_message.get_rect(center = (450,370))
+start_message = font.render('Press SPACE to start the game !',False, ('Black'))
+start_message_rect = star_message.get_rect(center = (470,370))
+start_message2 = font3.render('Press SPACE to start the game !',False, ('Black'))
 
-#almost_message = font.render('You are almost there!',False, ('White'))
-#almost_message_rect = almost_message.get_rect(center = (400,340))
+almost_message = font3.render('You are almost there!',False, ('White'))
+almost_message_rect = almost_message.get_rect(center = (400,60))
 
-try_message = font.render('Try to break your heighest score!',False, ('White'))
-try_message_rect = try_message.get_rect(center = (400,340))
+try_message = font3.render('Try to break your heighest score !',False, ('White'))
+try_message_rect = try_message.get_rect(center = (400,130))
 
-congr_message = font.render('Well done! You break your highest score! ',False, ('White'))
-congr_message_rect = congr_message.get_rect(center = (400,340))
+congr_message = font3.render('Well done! You break your highest score ! ',False, ('White'))
+congr_message_rect = congr_message.get_rect(center = (400,130))
 
 # Game surface
 sky_surf = pygame.image.load('grahics/sky.jpg').convert()
@@ -121,7 +123,7 @@ blocker_image = [mus_s, mus_s, star_s,
 
 blocker_image_index = 0
 
-# Mario running gif pictures
+# Mario gif pictures
 Mario_run_surf1 = pygame.image.load('grahics/run/frame_00_delay-0.1s.png').convert_alpha()
 Mario_run_scale1 = pygame.transform.scale(Mario_run_surf1, (200, 200))
 
@@ -163,31 +165,31 @@ Mario_run =[Mario_run_scale1, Mario_run_scale2, Mario_run_scale3, Mario_run_scal
             Mario_run_scale11, Mario_run_scale12]
 
 Mario_run_index =0
-Mario_surf = Mario_run[Mario_run_index]
+Mario_run_surf = Mario_run[Mario_run_index]
 
 Mario_score_surf1 = pygame.image.load('grahics/score/frame_0_delay-0.1s.png').convert_alpha()
-Mario_score_scale1 = pygame.transform.scale(Mario_score_surf1, (200, 200))
+Mario_score_scale1 = pygame.transform.scale(Mario_score_surf1, (300,300))
 
 Mario_score_surf2 = pygame.image.load('grahics/score/frame_1_delay-0.1s.png').convert_alpha()
-Mario_score_scale2 = pygame.transform.scale(Mario_score_surf2, (200, 200))
+Mario_score_scale2 = pygame.transform.scale(Mario_score_surf2, (300,300))
 
 Mario_score_surf3 = pygame.image.load('grahics/score/frame_2_delay-0.1s.png').convert_alpha()
-Mario_score_scale3 = pygame.transform.scale(Mario_score_surf3, (200, 200))
+Mario_score_scale3 = pygame.transform.scale(Mario_score_surf3, (300,300))
 
 Mario_score_surf4 = pygame.image.load('grahics/score/frame_3_delay-0.1s.png').convert_alpha()
-Mario_score_scale4 = pygame.transform.scale(Mario_score_surf4, (200, 200))
+Mario_score_scale4 = pygame.transform.scale(Mario_score_surf4, (300,300))
 
 Mario_score_surf5 = pygame.image.load('grahics/score/frame_4_delay-0.1s.png').convert_alpha()
-Mario_score_scale5 = pygame.transform.scale(Mario_score_surf5, (200, 200))
+Mario_score_scale5 = pygame.transform.scale(Mario_score_surf5, (300,300))
 
 Mario_score_surf6 = pygame.image.load('grahics/score/frame_5_delay-0.1s.png').convert_alpha()
-Mario_score_scale6 = pygame.transform.scale(Mario_score_surf6, (200, 200))
+Mario_score_scale6 = pygame.transform.scale(Mario_score_surf6, (300,300))
 
 Mario_score_surf7 = pygame.image.load('grahics/score/frame_6_delay-0.1s.png').convert_alpha()
-Mario_score_scale7 = pygame.transform.scale(Mario_score_surf7, (200, 200))
+Mario_score_scale7 = pygame.transform.scale(Mario_score_surf7, (300,300))
 
 Mario_score_surf8 = pygame.image.load('grahics/score/frame_7_delay-0.1s.png').convert_alpha()
-Mario_score_scale8 = pygame.transform.scale(Mario_score_surf8, (200, 200))
+Mario_score_scale8 = pygame.transform.scale(Mario_score_surf8, (300,300))
 
 Mario_score =[Mario_score_scale1, Mario_score_scale2, Mario_score_scale3, Mario_score_scale4, Mario_score_scale5,
               Mario_score_scale6, Mario_score_scale7, Mario_score_scale8]
@@ -207,7 +209,7 @@ game_active= False
 correct_key = 0
 score = 0
 highest_score = 0
-abc = 0
+difference = 0
 
 
 while True:
@@ -223,8 +225,8 @@ while True:
                         time -=1
                         text = str (time).rjust(3)
             
-            # Successfully passed through 6 blockers continually, an extra 2 seconds will be added in the timer
-            if correct_key == 6:
+            # Successfully passed through 5 blockers continually, an extra 2 seconds will be added in the timer
+            if correct_key == 5:
                 correct_key = 0
                 time +=2
                 text = str (time).rjust(3)
@@ -274,10 +276,11 @@ while True:
             # initialize blocker_image_index when player is fully go throught the blocker_image list
             if blocker_image_index == 18:
                 blocker_image_index = 0
-
+            
+            # Compare the score is beggest than highest score every single blocker loop
             while score > highest_score:
              highest_score = score
-             abc += 1
+             difference += 1
 
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
@@ -286,7 +289,7 @@ while True:
                 time = 8
                 correct_key = 0
                 blocker_image_index = 0
-                abc = 0
+                difference = 0
                 print("Here we go!")
                 herewego.play()
                 background.play()
@@ -311,12 +314,13 @@ while True:
     if game_active:          
         screen.blit(sky_surf, (0, 0))
         screen.blit(ground_surf, (0, 300))
-        screen.blit(Mario_surf, (-15, 100))
-        Mario_animation()
+        screen.blit(Mario_run_surf, (-15, 100))
+        Mario_run_animation()
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
         save_score(score, highest_score)
+
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
 
@@ -360,43 +364,47 @@ while True:
             background.stop()
 
     else: 
-        screen.fill((94,129,162))
-        screen.blit(Mario_stand_scale,Maria_stand_rect)
-        # screen.blit(Mario_score_surf, (-15, 100))
-        # Mario_score_animation()
-        screen.blit(game_name,game_name_rect)
-        screen.blit(start_message,start_message_rect)
+        screen.fill((94,129,162)) 
+
+        score_message = font3.render(f'Your score is {score}' ,False, ('White'))
+        score_message_rect = score_message.get_rect(center = (400,200))
+
+        highest_score_message = font3.render(f'Your highest score is {highest_score}' ,False, ('White'))
+        highest_score_message_rect = highest_score_message.get_rect(center = (400,270))
+
+        last_highest_score_message = font3.render(f'Your previous highest score is {highest_score - difference}' ,False, ('White'))
+        last_highest_score_message_rect = last_highest_score_message.get_rect(center = (465,200))
+
+        score_break_highest_message = font3.render(f'Your highest score is {score}' ,False, ('White'))
+        score_break_highest_message_rect = score_break_highest_message.get_rect(center = (465,270))
         
-
-        score_message = font.render(f'Your score is {score}' ,False, ('White'))
-        score_message_rect = score_message.get_rect(center = (400,280))
-
-        highest_score_message = font.render(f'Your highest score is {highest_score}' ,False, ('White'))
-        highest_score_message_rect = highest_score_message.get_rect(center = (400,310))
-
-        last_highest_score_message = font.render(f'Your previous highest score is {highest_score - abc}' ,False, ('White'))
-        last_highest_score_message_rect = last_highest_score_message.get_rect(center = (400,340))
-
-        score_break_highest_message = font.render(f'Your highest score is {score}' ,False, ('White'))
-        score_break_highest_message_rect = score_break_highest_message.get_rect(center = (400,310)) 
-        
+        # intro screen
         if score == 0:
+            screen.blit(Mario_stand_scale,Maria_stand_rect)
             screen.blit(mus_message,mus_message_rect)
             screen.blit(star_message,star_message_rect)
             screen.blit(tur_message,tur_message_rect)
+            screen.blit(game_name,game_name_rect)
+            screen.blit(start_message,start_message_rect)
         
-        #lose
-        elif score < highest_score: 
+        # lose screen
+        elif difference == 0 and score != 0: 
+            screen.blit(Mario_score_surf, (-50,80))
+            Mario_score_animation()
+            screen.blit(almost_message,almost_message_rect)
             screen.blit(score_message,score_message_rect)
             screen.blit(highest_score_message,highest_score_message_rect)
             screen.blit(try_message,try_message_rect)
-            #screen.blit(almost_message,almost_message_rect)
-
-        #win
-        elif score ==  highest_score and score!= 0: 
+            screen.blit(start_message2,(120,340))
+            
+        # win screen
+        elif difference > 0 : 
+            screen.blit(Mario_score_surf, (-50, 95))
+            Mario_score_animation()
+            screen.blit(congr_message,congr_message_rect)
             screen.blit(score_break_highest_message, score_break_highest_message_rect)
             screen.blit(last_highest_score_message,last_highest_score_message_rect)
-            #screen.blit(congr_message,congr_message_rect)
+            screen.blit(start_message2,(170,340))
 
     pygame.display.update()
     clock.tick(60)
