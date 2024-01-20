@@ -237,7 +237,7 @@ while True:
             # initialize blocker_image_index when player is fully go throught the blocker_image list
             if blocker_image_index == 18:
                 blocker_image_index = 0
-
+            
             while score > highest_score:
              highest_score = score
              abc += 1
@@ -250,9 +250,27 @@ while True:
                 correct_key = 0
                 blocker_image_index = 0
                 abc = 0
+                previous_score = 0
+                previous_score = score
                 print("Here we go!")
-                herewego.play()
+                #herewego.play()
                 background.play()
+
+                def save_previous_score(previous_score):
+                    with open("score2.txt", "w") as file:
+                        file.write(str(previous_score))
+                def load_previous_score():
+                    try:
+                        with open('score2.txt', 'r') as file:
+                            previous_score = int(file.read().strip())
+                            previous_score = score
+                            save_previous_score(previous_score)
+                            return previous_score
+                    except FileNotFoundError:
+                        return  0
+                previous_score = score
+                previous_score = load_previous_score()
+
                 def save_score(score, highest_score):
                     with open("score.txt", "w") as file:
                         file.write(f"{score}\n{highest_score}")  
@@ -276,9 +294,12 @@ while True:
         screen.blit(Mario_surf, (20, 150))
         Mario_animation()
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
+        screen.blit(font.render(f'Previous Score: {previous_score}',True,('White')),(486,78))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
+        save_previous_score(previous_score)
         save_score(score, highest_score)
+        
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
 
