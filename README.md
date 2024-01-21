@@ -1,6 +1,6 @@
 This game is inspired by Pou mini game 'Pet walk'. 
 https://youtu.be/15BTTF3712o?si=rJe2JV3I6ArIwexq
-Unfortunately, there is no online tutorial for this such game, so it is quite challenging for us.
+Fortunately, there is no online tutorial for this such game, so it is quite challenging for us and we did it :)
 
 The elements and characters used in the game are from 'Super Mario Bros,' but the game's design is totally different from it. Mario must pass through the blockers by pressing specific arrow keys. 
 The objective is to break the highest scores by passing through as many blockers as possible within a limited time. (15 seconds)

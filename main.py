@@ -49,6 +49,24 @@ def show_blockers(blocker):
             if blocker == 18:
                  blocker = 0
 
+# File save score
+def save_score(score, highest_score):
+    with open("score.txt", "w") as file:
+        file.write(f"{score}\n{highest_score}")  
+
+def load_score():
+    try:
+        with open("score.txt", "r") as file:
+            lines = file.readlines()
+            if len(lines) >= 2 :
+                score = 0
+                highest_score = int(lines[1].strip())
+                return score, highest_score
+            else:
+                return 0, 0
+    except FileNotFoundError:                        
+        return 0, 0
+
 # Game foundation
 pygame.init()
 pygame.key.get_focused()
@@ -294,6 +312,9 @@ while True:
             while score > highest_score:
              highest_score = score
              difference += 1
+
+            # Save score and highest score every single blocker loop
+            save_score(score, highest_score)
  
         # game_active = False, means game not start yet and the surface will go to intro or lose or win screen
         else: 
@@ -305,11 +326,10 @@ while True:
                 # Initialize the indexs again
                 score = 0
                 time = 16
+
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
-                previous_score = 0
-                previous_score = score
                 print("Here we go!")
                  
                 # Sound effects
@@ -318,41 +338,11 @@ while True:
                 mixer.music.stop()
                 lose.stop()
                 win.stop()
-                
-                # File save score
-                # def save_previous_score(previous_score):
-                #     with open("score2.txt", "w") as file:
-                #         file.write(str(previous_score))
-                # def load_previous_score():
-                #     try:
-                #         with open('score2.txt', 'r') as file:
-                #             previous_score = int(file.read().strip())
-                #             previous_score = score
-                #             save_previous_score(previous_score)
-                #             return previous_score
-                #     except FileNotFoundError:
-                #         return  0
-                # previous_score = score
-                # previous_score = load_previous_score()
 
-                def save_score(score, highest_score):
-                    with open("score.txt", "w") as file:
-                        file.write(f"{score}\n{highest_score}")  
-                def load_score():
-                    try:
-                        with open("score.txt", "r") as file:
-                            lines = file.readlines()
-                            if len(lines) >= 2 :
-                                score = 0
-                                highest_score = int(lines[1].strip())
-                                return score, highest_score
-                            else:
-                                return 0, 0
-                    except FileNotFoundError:                        
-                        return 0, 0
+                # Input the previous score and highest score
                 score, highest_score = load_score()
 
-# Output
+# Output (All about surfaces)
                 
     # game_active = True, means game is start. 
     if game_active:       
@@ -365,9 +355,6 @@ while True:
         screen.blit(font.render(f'Score: {score}',True,('White')),(630,48))
         screen.blit(font.render(f'Highest score: {highest_score - difference}',True,('White')),(510,18))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
-
-        # save_previous_score(previous_score)
-        save_score(score,highest_score)
 
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
