@@ -26,6 +26,6 @@ https://youtu.be/AY9MnQ4x3zk?si=XYL4WheW0y4ml7-8
 Blocker loop 100% from scratch
 
 1) Tam Xin Yi 
--Design, blockers loop, animation Mario, time
+- Blockers loop, animation Mario, time 
 2) Lew Li Jun 
--Scores & highest scores, file, audios
+- Scores & highest scores, file, audios

@@ -24,10 +24,20 @@ def Mario_score_animation():
     Mario_score_index += 0.1
     if Mario_score_index >= len(Mario_score) : Mario_score_index = 0
     Mario_score_surf = Mario_score[int(Mario_score_index)]
-    
-# Check player's input 
-def blocker_key(key):
-    global blocker_image_index , correct_key, score
+
+# Check player's input     
+def blocker_key():
+    global blocker_image_index, correct_key, score
+
+    if blocker_image[blocker_image_index] == mus_s:
+        key = pygame.K_DOWN
+
+    elif blocker_image[blocker_image_index] == tur_s:
+        key = pygame.K_RIGHT
+
+    else:
+        key = pygame.K_UP
+
     if event.type == pygame.KEYDOWN:
         if event.key == key:
             blocker_image_index +=1
@@ -36,18 +46,18 @@ def blocker_key(key):
             score +=1
         else:
             correct_key = 0
-     
+
 # Print the 6 blockes in one screen
-def show_blockers(blocker):
+def show_blockers(blocker_image_index):
     coordinate = 200
 
     while coordinate <= 700:
-            screen.blit(blocker_image[blocker], (coordinate, 230))
-            blocker +=1
-            coordinate += 100
+        screen.blit(blocker_image[blocker_image_index], (coordinate, 230))
+        blocker_image_index +=1
+        coordinate += 100
 
-            if blocker == 18:
-                 blocker = 0
+        if blocker_image_index == 18:
+                blocker_image_index = 0
 
 # File save score
 def save_score(score, highest_score):
@@ -266,43 +276,8 @@ while True:
                 warning.stop()
 
 # Input
-                
             # Check player's input 
-            if blocker_image_index == 17: blocker_key(pygame.K_DOWN)
-
-            elif blocker_image_index == 16: blocker_key(pygame.K_RIGHT)
-
-            elif blocker_image_index == 15: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 14: blocker_key(pygame.K_RIGHT)
-
-            elif blocker_image_index == 13: blocker_key(pygame.K_DOWN)
-
-            elif blocker_image_index == 12: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 11: blocker_key(pygame.K_RIGHT)
-
-            elif blocker_image_index == 10: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 9: blocker_key(pygame.K_DOWN)
-
-            elif blocker_image_index == 8: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 7: blocker_key(pygame.K_DOWN)
-
-            elif blocker_image_index == 6: blocker_key(pygame.K_RIGHT)
-
-            elif blocker_image_index == 5: blocker_key(pygame.K_DOWN)
-
-            elif blocker_image_index == 4: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 3: blocker_key(pygame.K_RIGHT)
-
-            elif blocker_image_index == 2: blocker_key(pygame.K_UP)
-
-            elif blocker_image_index == 1: blocker_key(pygame.K_RIGHT)
-
-            else: blocker_key(pygame.K_DOWN)
+            blocker_key()
 
             # initialize blocker_image_index when player is fully go throught the blocker_image list
             if blocker_image_index == 18:
@@ -356,41 +331,7 @@ while True:
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
         # Print the 6 blockes in one screen
-        if blocker_image_index == 17: show_blockers(17)
-
-        elif blocker_image_index == 16: show_blockers(16)
-    
-        elif blocker_image_index == 15: show_blockers(15)
-            
-        elif blocker_image_index == 14: show_blockers(14)
-        
-        elif blocker_image_index == 13: show_blockers(13)
-            
-        elif blocker_image_index == 12: show_blockers(12)
-            
-        elif blocker_image_index == 11: show_blockers(11)
-           
-        elif blocker_image_index == 10: show_blockers(10)
-            
-        elif blocker_image_index == 9: show_blockers(9)
-           
-        elif blocker_image_index == 8: show_blockers(8)
-            
-        elif blocker_image_index == 7: show_blockers(7)
-            
-        elif blocker_image_index == 6: show_blockers(6)
-           
-        elif blocker_image_index == 5: show_blockers(5)
-            
-        elif blocker_image_index == 4: show_blockers(4)
-            
-        elif blocker_image_index == 3: show_blockers(3)
-            
-        elif blocker_image_index == 2: show_blockers(2)
-            
-        elif blocker_image_index == 1: show_blockers(1)
-            
-        else: show_blockers(0)
+        show_blockers(blocker_image_index)
         
         # If the timmer reaches zero the game will end and go to lose or win screen
         if time == 0:
