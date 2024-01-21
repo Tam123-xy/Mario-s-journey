@@ -320,20 +320,20 @@ while True:
                 win.stop()
                 
                 # File save score
-                def save_previous_score(previous_score):
-                    with open("score2.txt", "w") as file:
-                        file.write(str(previous_score))
-                def load_previous_score():
-                    try:
-                        with open('score2.txt', 'r') as file:
-                            previous_score = int(file.read().strip())
-                            previous_score = score
-                            save_previous_score(previous_score)
-                            return previous_score
-                    except FileNotFoundError:
-                        return  0
-                previous_score = score
-                previous_score = load_previous_score()
+                # def save_previous_score(previous_score):
+                #     with open("score2.txt", "w") as file:
+                #         file.write(str(previous_score))
+                # def load_previous_score():
+                #     try:
+                #         with open('score2.txt', 'r') as file:
+                #             previous_score = int(file.read().strip())
+                #             previous_score = score
+                #             save_previous_score(previous_score)
+                #             return previous_score
+                #     except FileNotFoundError:
+                #         return  0
+                # previous_score = score
+                # previous_score = load_previous_score()
 
                 def save_score(score, highest_score):
                     with open("score.txt", "w") as file:
@@ -351,7 +351,7 @@ while True:
                     except FileNotFoundError:                        
                         return 0, 0
                 score, highest_score = load_score()
-    
+
 # Output
                 
     # game_active = True, means game is start. 
@@ -366,8 +366,8 @@ while True:
         screen.blit(font.render(f'Highest score: {highest_score - difference}',True,('White')),(510,18))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
-        save_previous_score(previous_score)
-        save_score(score, highest_score)
+        # save_previous_score(previous_score)
+        save_score(score,highest_score)
 
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
