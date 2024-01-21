@@ -14,7 +14,7 @@ Turtle: RIGHT arrow key
 -When Mario passes through a blocker, the player gets one score. The scores will be recorded and output to encourage players to break their own highest scores.
 -When Mario successfully passes through 5 blockers continually, an extra 2 seconds may be added to the timer.
 -Blockers are static , Mario is animate, but all these will remain their own coordinate. IT IS NOT A COLLISION GAME
--We will save the highest scores by using file. After the players restart the game still can know their height score.
+-We will save the highest scores by using file. After the players restart the game still can know their previous height score.
 -Pygame
 
 count down timer, time:

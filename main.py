@@ -326,7 +326,6 @@ while True:
                 # Initialize the indexs again
                 score = 0
                 time = 16
-
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
