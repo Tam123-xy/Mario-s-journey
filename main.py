@@ -311,7 +311,7 @@ while True:
                 previous_score = 0
                 previous_score = score
                 print("Here we go!")
-                
+                 
                 # Sound effects
                 herewego.play()
                 background.play(loops = -1)
