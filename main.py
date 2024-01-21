@@ -66,7 +66,8 @@ mixer.music.play(1,0.0)
 
 background = pygame.mixer.Sound('audio/background.wav')
 addtime = pygame.mixer.Sound('audio/addtime.wav')
-die = pygame.mixer.Sound('audio/die.wav')
+lose = pygame.mixer.Sound('audio/lose.wav')
+win = pygame.mixer.Sound('audio/Course Clear (Super Mario) - QuickSounds.com.wav')
 warning = pygame.mixer.Sound('audio/warning.wav')
 herewego = pygame.mixer.Sound('audio/herewego.wav')
 score = pygame.mixer.Sound('audio/score.wav')
@@ -74,19 +75,19 @@ score = pygame.mixer.Sound('audio/score.wav')
 # Intro and score screen surface
 Mario_stand = pygame.image.load('grahics/Mario_stand.png').convert_alpha()
 Mario_stand_scale = pygame.transform.rotozoom(Mario_stand,0,0.8)
-Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,165))
+Maria_stand_rect = Mario_stand_scale.get_rect(center = (400,135))
 
 game_name = font.render("Mario's journey",False, ('White'))
-game_name_rect = game_name.get_rect(center=(400,50))
+game_name_rect = game_name.get_rect(center=(400,20))
 
 star_message = font2.render('Send the star to the sky by pressing arrow key UP !',False, ('White'))
-star_message_rect = star_message.get_rect(center = (400,280))
+star_message_rect = star_message.get_rect(center = (400,250))
 
 mus_message = font2.render('Smack the mushroom to the ground by pressing arrow key DOWN !',False, ('White'))
-mus_message_rect = mus_message.get_rect(center = (400,310))
+mus_message_rect = mus_message.get_rect(center = (400,280))
 
 tur_message = font2.render('Kick off the turtle by pressing arrow key RIGHT !',False, ('White'))
-tur_message_rect = tur_message.get_rect(center = (400,340))
+tur_message_rect = tur_message.get_rect(center = (400,310))
 
 start_message = font.render('Press SPACE to start the game !',False, ('Black'))
 start_message_rect = star_message.get_rect(center = (470,370))
@@ -98,8 +99,11 @@ almost_message_rect = almost_message.get_rect(center = (400,60))
 try_message = font3.render('Try to break your heighest score !',False, ('White'))
 try_message_rect = try_message.get_rect(center = (400,130))
 
-congr_message = font3.render('Well done! You break your highest score ! ',False, ('White'))
+congr_message = font3.render('Well done ! You break your highest score ! ',False, ('White'))
 congr_message_rect = congr_message.get_rect(center = (400,130))
+
+tip_message = font2.render('Go throught 5 blockers continually will get an extra 2 seconds.',False, ('White'))
+tip_message_rect = tip_message.get_rect(center = (400,340))
 
 # Game surface
 sky_surf = pygame.image.load('grahics/sky.jpg').convert()
@@ -114,12 +118,12 @@ mus_s = pygame.transform.scale(mus, (70, 70))
 tur = pygame.image.load('grahics/blockers/tur.png').convert_alpha()
 tur_s = pygame.transform.scale(tur, (80, 70))
 
-blocker_image = [mus_s, mus_s, star_s, 
+blocker_image = [mus_s, tur_s, star_s, 
                  tur_s, star_s, mus_s,
                  tur_s, mus_s, star_s,
-                 star_s, tur_s, tur_s,
                  mus_s, star_s, tur_s,
-                 star_s, mus_s, tur_s]
+                 star_s, mus_s, tur_s,
+                 star_s, tur_s, mus_s,]
 
 blocker_image_index = 0
 
@@ -201,8 +205,7 @@ Mario_score_surf = Mario_score[Mario_score_index]
 # Timer
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
-time = 7
-text = '7'.rjust(3)
+text = '15'.rjust(3)
 
 # Index initialize
 game_active= False
@@ -217,8 +220,9 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-
-        if game_active:
+        
+        # game_active = True, means game is start
+        if game_active: 
 
             # Timer
             if event.type == pygame.USEREVENT:
@@ -232,28 +236,37 @@ while True:
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
                 addtime.play()
-
+            
+            # Sound effects for some conditions
             if time == 3:
                 warning.play()
 
-            # Check player's input 
-            if blocker_image_index == 17: blocker_key(pygame.K_RIGHT)
+            if time <=3:
+                background.stop()
 
-            elif blocker_image_index == 16: blocker_key(pygame.K_DOWN)
+            if time >3:
+                warning.stop()
+
+# Input
+                
+            # Check player's input 
+            if blocker_image_index == 17: blocker_key(pygame.K_DOWN)
+
+            elif blocker_image_index == 16: blocker_key(pygame.K_RIGHT)
 
             elif blocker_image_index == 15: blocker_key(pygame.K_UP)
 
             elif blocker_image_index == 14: blocker_key(pygame.K_RIGHT)
 
-            elif blocker_image_index == 13: blocker_key(pygame.K_UP)
+            elif blocker_image_index == 13: blocker_key(pygame.K_DOWN)
 
-            elif blocker_image_index == 12: blocker_key(pygame.K_DOWN)
+            elif blocker_image_index == 12: blocker_key(pygame.K_UP)
 
             elif blocker_image_index == 11: blocker_key(pygame.K_RIGHT)
 
-            elif blocker_image_index == 10: blocker_key(pygame.K_RIGHT)
+            elif blocker_image_index == 10: blocker_key(pygame.K_UP)
 
-            elif blocker_image_index == 9: blocker_key(pygame.K_UP)
+            elif blocker_image_index == 9: blocker_key(pygame.K_DOWN)
 
             elif blocker_image_index == 8: blocker_key(pygame.K_UP)
 
@@ -269,7 +282,7 @@ while True:
 
             elif blocker_image_index == 2: blocker_key(pygame.K_UP)
 
-            elif blocker_image_index == 1: blocker_key(pygame.K_DOWN)
+            elif blocker_image_index == 1: blocker_key(pygame.K_RIGHT)
 
             else: blocker_key(pygame.K_DOWN)
 
@@ -281,35 +294,46 @@ while True:
             while score > highest_score:
              highest_score = score
              difference += 1
-
-        else:
+ 
+        # game_active = False, means game not start yet and the surface will go to intro or lose or win screen
+        else: 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
-                game_active = True
+
+                # Press SPACE to start the game 
+                game_active = True 
+
+                # Initialize the indexs again
                 score = 0
-                time = 8
+                time = 16
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
                 previous_score = 0
                 previous_score = score
                 print("Here we go!")
+                 
+                # Sound effects
                 herewego.play()
-                background.play()
-
-                def save_previous_score(previous_score):
-                    with open("score2.txt", "w") as file:
-                        file.write(str(previous_score))
-                def load_previous_score():
-                    try:
-                        with open('score2.txt', 'r') as file:
-                            previous_score = int(file.read().strip())
-                            previous_score = score
-                            save_previous_score(previous_score)
-                            return previous_score
-                    except FileNotFoundError:
-                        return  0
-                previous_score = score
-                previous_score = load_previous_score()
+                background.play(loops = -1)
+                mixer.music.stop()
+                lose.stop()
+                win.stop()
+                
+                # File save score
+                # def save_previous_score(previous_score):
+                #     with open("score2.txt", "w") as file:
+                #         file.write(str(previous_score))
+                # def load_previous_score():
+                #     try:
+                #         with open('score2.txt', 'r') as file:
+                #             previous_score = int(file.read().strip())
+                #             previous_score = score
+                #             save_previous_score(previous_score)
+                #             return previous_score
+                #     except FileNotFoundError:
+                #         return  0
+                # previous_score = score
+                # previous_score = load_previous_score()
 
                 def save_score(score, highest_score):
                     with open("score.txt", "w") as file:
@@ -327,8 +351,13 @@ while True:
                     except FileNotFoundError:                        
                         return 0, 0
                 score, highest_score = load_score()
-             
-    if game_active:          
+    
+# Output
+                
+    # game_active = True, means game is start. 
+    if game_active:       
+
+        # Game surface
         screen.blit(sky_surf, (0, 0))
         screen.blit(ground_surf, (0, 300))
         screen.blit(Mario_run_surf, (-15, 100))
@@ -337,10 +366,9 @@ while True:
         screen.blit(font.render(f'Highest score: {highest_score - difference}',True,('White')),(510,18))
         screen.blit(font.render(f'Time: {text}',True,('White')),(32,48))
 
-        save_previous_score(previous_score)
+        # save_previous_score(previous_score)
         save_score(score, highest_score)
 
-        
         # Print the 6 blockes in one screen
         if blocker_image_index == 17: show_blockers(17)
 
@@ -377,13 +405,20 @@ while True:
         elif blocker_image_index == 1: show_blockers(1)
             
         else: show_blockers(0)
-     
+        
+        # If the timmer reaches zero the game will end and go to lose or win screen
         if time == 0:
             game_active = False
-            die.play()
-            background.stop()
+            
+            # Sound effects for lose and win screen
+            if difference == 0 and score != 0:
+                lose.play()
 
-    else:  
+            elif difference > 0 :
+                win.play()
+
+    # game_active = False, means game not start yet and the surface will go to intro or lose or win screen
+    else:   
         screen.fill((94,129,162)) 
 
         score_message = font3.render(f'Your score is {score}' ,False, ('White'))
@@ -392,7 +427,7 @@ while True:
         highest_score_message = font3.render(f'Your highest score is {highest_score}' ,False, ('White'))
         highest_score_message_rect = highest_score_message.get_rect(center = (400,200))
 
-        last_highest_score_message = font3.render(f'Your previous highest score is {highest_score - difference}' ,False, ('White'))
+        last_highest_score_message = font3.render(f'Your previous highest score is {score - difference}' ,False, ('White'))
         last_highest_score_message_rect = last_highest_score_message.get_rect(center = (465,200))
 
         score_break_highest_message = font3.render(f'Your highest score is {score}' ,False, ('White'))
@@ -406,6 +441,7 @@ while True:
             screen.blit(tur_message,tur_message_rect)
             screen.blit(game_name,game_name_rect)
             screen.blit(start_message,start_message_rect)
+            screen.blit(tip_message,tip_message_rect)
         
         # lose screen
         elif difference == 0 and score != 0: 
