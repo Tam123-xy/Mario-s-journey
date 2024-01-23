@@ -11,6 +11,7 @@
 
 import pygame
 from sys import exit
+import random
 
 # Mario animation 
 def Mario_run_animation(): 
@@ -24,40 +25,42 @@ def Mario_score_animation():
     Mario_score_index += 0.1
     if Mario_score_index >= len(Mario_score) : Mario_score_index = 0
     Mario_score_surf = Mario_score[int(Mario_score_index)]
-
+    
 # Check player's input     
 def blocker_key():
-    global blocker_image_index, correct_key, score
+    global blocker_image_index, correct_key, score, time
 
-    if blocker_image[blocker_image_index] == mus_s:
-        key = pygame.K_DOWN
+    if blocker_image_random[blocker_image_index] == mus_s:
+        key = [pygame.K_DOWN, pygame.K_s]
 
-    elif blocker_image[blocker_image_index] == tur_s:
-        key = pygame.K_RIGHT
+    elif blocker_image_random[blocker_image_index] == tur_s:
+        key = [pygame.K_RIGHT, pygame.K_d]
 
     else:
-        key = pygame.K_UP
+        key = [pygame.K_UP, pygame.K_w]
 
     if event.type == pygame.KEYDOWN:
-        if event.key == key:
+        if event.key in key:
             blocker_image_index +=1
             correct_key +=1
             print (correct_key)
             score +=1
         else:
             correct_key = 0
+            time -=2
+            print('Minus 2 seconds!')
 
 # Print the 6 blockes in one screen
-def show_blockers(blocker_image_index):
+def show_blockers(blocker_index):
     coordinate = 200
 
     while coordinate <= 700:
-        screen.blit(blocker_image[blocker_image_index], (coordinate, 230))
-        blocker_image_index +=1
+        screen.blit(blocker_image_random[blocker_index], (coordinate, 230))
+        blocker_index +=1
         coordinate += 100
 
-        if blocker_image_index == 18:
-                blocker_image_index = 0
+        if blocker_index == 18:
+                blocker_index = 0
 
 # File save score
 def save_score(score, highest_score):
@@ -76,10 +79,10 @@ def load_score():
                 return 0, 0
     except FileNotFoundError:                        
         return 0, 0
-
+    
 # Game foundation
 pygame.init()
-pygame.key.get_focused()
+keys = pygame.key.get_focused()
 screen = pygame.display.set_mode((800, 400))  
 pygame.display.set_caption("Mario's journey") 
 font = pygame.font.Font('font/font.ttf', 50)
@@ -91,6 +94,7 @@ from pygame import mixer
 mixer.init()
 mixer.music.load('audio/start.wav')
 mixer.music.play(1,0.0)
+channel1 = pygame.mixer.Channel(0)
 
 background = pygame.mixer.Sound('audio/background.wav')
 addtime = pygame.mixer.Sound('audio/addtime.wav')
@@ -146,13 +150,7 @@ mus_s = pygame.transform.scale(mus, (70, 70))
 tur = pygame.image.load('grahics/blockers/tur.png').convert_alpha()
 tur_s = pygame.transform.scale(tur, (80, 70))
 
-blocker_image = [mus_s, tur_s, star_s, 
-                 tur_s, star_s, mus_s,
-                 tur_s, mus_s, star_s,
-                 mus_s, star_s, tur_s,
-                 star_s, mus_s, tur_s,
-                 star_s, tur_s, mus_s,]
-
+blocker_image = [mus_s, tur_s, star_s, star_s,  mus_s, tur_s,]
 blocker_image_index = 0
 
 # Mario gif pictures
@@ -235,7 +233,7 @@ clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
 text = '15'.rjust(3)
 
-# Index initialize
+# Create variables
 game_active= False
 correct_key = 0
 score = 0
@@ -264,13 +262,13 @@ while True:
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
                 addtime.play()
-            
-            # Sound effects for some conditions
-            if time == 3:
-                warning.play()
 
+            # Sound effects for some conditions
             if time <=3:
                 background.stop()
+            
+            if time <= 3 and pygame.mixer.Channel.get_busy(channel1) == False:
+                warning.play()
 
             if time >3:
                 warning.stop()
@@ -280,7 +278,7 @@ while True:
             blocker_key()
 
             # initialize blocker_image_index when player is fully go throught the blocker_image list
-            if blocker_image_index == 18:
+            if blocker_image_index == 100:
                 blocker_image_index = 0
                         
             # Compare the score is beggest than highest score every single blocker loop
@@ -297,6 +295,9 @@ while True:
 
                 # Press SPACE to start the game 
                 game_active = True 
+                
+                # Generate a random blocker list for player
+                blocker_image_random = random.choices(blocker_image, k= 101)
 
                 # Initialize the indexs again
                 score = 0
@@ -332,10 +333,11 @@ while True:
 
         # Print the 6 blockes in one screen
         show_blockers(blocker_image_index)
-        
+
         # If the timmer reaches zero the game will end and go to lose or win screen
-        if time == 0:
+        if time <= 0:
             game_active = False
+            warning.stop()
             
             # Sound effects for lose and win screen
             if difference == 0 and score != 0:
