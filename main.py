@@ -61,7 +61,7 @@ def show_blockers(blocker_index):
         blocker_index +=1
         coordinate += 100
 
-        if blocker_index == 18:
+        if blocker_index == 100:
                 blocker_index = 0
 
 # File save score
@@ -283,7 +283,7 @@ while True:
 
             if time > 3 and pygame.mixer.Channel.get_busy(channel1) == False:
                 background.play(loops=-1)
-
+                
 # Input
             # Check player's input 
             blocker_key()
