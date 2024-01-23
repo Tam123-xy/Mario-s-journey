@@ -99,6 +99,7 @@ mixer.music.play(1,0.0)
 channel1 = pygame.mixer.Channel(0)
 
 wrong = pygame.mixer.Sound('audio/buzzer-or-wrong-answer-20582.mp3')
+wrong.set_volume(0.5)
 background = pygame.mixer.Sound('audio/background.wav')
 addtime = pygame.mixer.Sound('audio/addtime.wav')
 lose = pygame.mixer.Sound('audio/lose.wav')
@@ -252,7 +253,6 @@ while True:
         
         # game_active = True, means game is start
         if game_active: 
-
             # Timer
             if event.type == pygame.USEREVENT:
                         time -=1
@@ -277,9 +277,12 @@ while True:
             if time >3:
                 warning.stop()
 
-            if time > 3 and pygame.mixer.Channel.get_busy(channel1) == False:
+            if score == 0 and pygame.mixer.Channel.get_busy(channel1) == False:
                 background.play(loops=-1)
+                herewego.play()
 
+            if time and pygame.mixer.Channel.get_busy(channel1) == False:
+                background.play(loops=-1)
 
 # Input
             # Check player's input 
@@ -316,7 +319,6 @@ while True:
                 print("Here we go!")
                  
                 # Sound effects
-                herewego.play()
                 mixer.music.stop()
                 lose.stop()
                 win.stop()
