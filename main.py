@@ -48,7 +48,9 @@ def blocker_key():
         else:
             correct_key = 0
             time -=2
+            wrong.play()
             print('Minus 2 seconds!')
+            
 
 # Print the 6 blockes in one screen
 def show_blockers(blocker_index):
@@ -96,6 +98,7 @@ mixer.music.load('audio/start.wav')
 mixer.music.play(1,0.0)
 channel1 = pygame.mixer.Channel(0)
 
+wrong = pygame.mixer.Sound('audio/buzzer-or-wrong-answer-20582.mp3')
 background = pygame.mixer.Sound('audio/background.wav')
 addtime = pygame.mixer.Sound('audio/addtime.wav')
 lose = pygame.mixer.Sound('audio/lose.wav')
@@ -231,7 +234,7 @@ Mario_score_surf = Mario_score[Mario_score_index]
 # Timer
 clock = pygame.time.Clock()
 pygame.time.set_timer(pygame.USEREVENT,1000)
-text = '15'.rjust(3)
+text = '20'.rjust(3)
 
 # Create variables
 game_active= False
@@ -266,12 +269,17 @@ while True:
             # Sound effects for some conditions
             if time <=3:
                 background.stop()
+                wrong.stop()
             
             if time <= 3 and pygame.mixer.Channel.get_busy(channel1) == False:
                 warning.play()
 
             if time >3:
                 warning.stop()
+
+            if time > 3 and pygame.mixer.Channel.get_busy(channel1) == False:
+                background.play(loops=-1)
+
 
 # Input
             # Check player's input 
@@ -301,7 +309,7 @@ while True:
 
                 # Initialize the indexs again
                 score = 0
-                time = 16
+                time = 21
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
@@ -309,7 +317,6 @@ while True:
                  
                 # Sound effects
                 herewego.play()
-                background.play(loops = -1)
                 mixer.music.stop()
                 lose.stop()
                 win.stop()
@@ -338,6 +345,7 @@ while True:
         if time <= 0:
             game_active = False
             warning.stop()
+            wrong.stop()
             
             # Sound effects for lose and win screen
             if difference == 0 and score != 0:

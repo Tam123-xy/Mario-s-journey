@@ -3,12 +3,12 @@ https://youtu.be/15BTTF3712o?si=rJe2JV3I6ArIwexq
 Fortunately, there is no online tutorial for this such game, so it is quite challenging for us and we did it :)
 
 The elements and characters used in the game are from 'Super Mario Bros,' but the game's design is totally different from it. Mario must pass through the blockers by pressing specific arrow keys. 
-The objective is to break the highest scores by passing through as many blockers as possible within 15 seconds.
+The objective is to break the highest scores by passing through as many blockers as possible within 20 seconds.
 
 Blockers:
-Yellow Star: UP arrow key
-Mushroom: DOWN arrow key
-Turtle: RIGHT arrow key
+Yellow Star: UP arrow key / key w
+Mushroom: DOWN arrow key / key s
+Turtle: RIGHT arrow key / key d
 
 - The game ends when the timer reaches zero. 
 - Pass through a blocker, the player gets one score. The scores will be recorded and output to encourage players to break their own highest score.
@@ -27,6 +27,6 @@ https://youtu.be/AY9MnQ4x3zk?si=XYL4WheW0y4ml7-8
 Blocker loop 100% from scratch
 
 1) Tam Xin Yi 
-- Blockers loop, animation Mario, time 
+- Blockers loop, animation Mario, time, design
 2) Lew Li Jun 
-- Scores & highest scores, file, audios
+- Scores & highest scores, file, audios, design
