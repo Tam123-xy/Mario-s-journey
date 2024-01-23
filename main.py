@@ -281,7 +281,7 @@ while True:
                 background.play(loops=-1)
                 herewego.play()
 
-            if time and pygame.mixer.Channel.get_busy(channel1) == False:
+            if time > 3 and pygame.mixer.Channel.get_busy(channel1) == False:
                 background.play(loops=-1)
 
 # Input
