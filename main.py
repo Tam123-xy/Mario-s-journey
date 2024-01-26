@@ -61,7 +61,7 @@ def show_blockers(blocker_index):
         blocker_index +=1
         coordinate += 100
 
-        if blocker_index == 100:
+        if blocker_index == 200:
                 blocker_index = 0
 
 # File save score
@@ -94,10 +94,9 @@ font3 = pygame.font.Font('font/font.ttf', 60)
 # Background music
 from pygame import mixer
 mixer.init()
-mixer.music.load('audio/start.wav')
-mixer.music.play(1,0.0)
-channel1 = pygame.mixer.Channel(0)
 
+start = pygame.mixer.Sound('audio/start.wav')
+start.play()
 wrong = pygame.mixer.Sound('audio/buzzer-or-wrong-answer-20582.mp3')
 wrong.set_volume(0.5)
 background = pygame.mixer.Sound('audio/background.wav')
@@ -154,7 +153,7 @@ mus_s = pygame.transform.scale(mus, (70, 70))
 tur = pygame.image.load('grahics/blockers/tur.png').convert_alpha()
 tur_s = pygame.transform.scale(tur, (80, 70))
 
-blocker_image = [mus_s, tur_s, star_s, star_s,  mus_s, tur_s,]
+blocker_image = [mus_s, tur_s, star_s]
 blocker_image_index = 0
 
 # Mario gif pictures
@@ -267,29 +266,26 @@ while True:
                 addtime.play()
 
             # Sound effects for some conditions
+            if score == 0 and pygame.mixer.Channel.get_busy(pygame.mixer.Channel(0)) == False:
+                pygame.mixer.Channel(0).play(background, -1)
+                pygame.mixer.Channel(1).play(herewego)
+
             if time <=3:
-                background.stop()
-                wrong.stop()
-            
-            if time <= 3 and pygame.mixer.Channel.get_busy(channel1) == False:
-                warning.play()
+                pygame.mixer.Channel(0).pause()
+
+            if time <=3 and pygame.mixer.Channel.get_busy(pygame.mixer.Channel(2)) == False:
+                pygame.mixer.Channel(2).play(warning)
 
             if time >3:
-                warning.stop()
-
-            if score == 0 and pygame.mixer.Channel.get_busy(channel1) == False:
-                background.play(loops=-1)
-                herewego.play()
-
-            if time > 3 and pygame.mixer.Channel.get_busy(channel1) == False:
-                background.play(loops=-1)
+                pygame.mixer.Channel(0).unpause()
+                pygame.mixer.Channel(2).stop()
                 
 # Input
             # Check player's input 
             blocker_key()
 
             # initialize blocker_image_index when player is fully go throught the blocker_image list
-            if blocker_image_index == 100:
+            if blocker_image_index == 200:
                 blocker_image_index = 0
                         
             # Compare the score is beggest than highest score every single blocker loop
@@ -300,28 +296,25 @@ while True:
             # Save score and highest score every single blocker loop
             save_score(score, highest_score)
  
-        # game_active = False, means game not start yet and the surface will go to intro or lose or win screen
+        # game_active = False, it means game not start yet and the surface will go to intro or lose or win screen
         else: 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE: 
 
-                # Press SPACE to start the game 
+            # Press SPACE to start the game
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:  
                 game_active = True 
                 
                 # Generate a random blocker list for player
-                blocker_image_random = random.choices(blocker_image, k= 101)
+                blocker_image_random = random.choices(blocker_image, weights = [1, 1, 1], k= 201)
 
-                # Initialize the indexs again
+                # Initialize the variables again
                 score = 0
                 time = 21
                 correct_key = 0
                 blocker_image_index = 0
                 difference = 0
+
+                pygame.mixer.stop()
                 print("Here we go!")
-                 
-                # Sound effects
-                mixer.music.stop()
-                lose.stop()
-                win.stop()
 
                 # Input the previous score and highest score
                 score, highest_score = load_score()
@@ -346,8 +339,7 @@ while True:
         # If the timmer reaches zero the game will end and go to lose or win screen
         if time <= 0:
             game_active = False
-            warning.stop()
-            wrong.stop()
+            pygame.mixer.stop()
             
             # Sound effects for lose and win screen
             if difference == 0 and score != 0:
@@ -356,7 +348,7 @@ while True:
             elif difference > 0 :
                 win.play()
 
-    # game_active = False, means game not start yet and the surface will go to intro or lose or win screen
+    # game_active = False, it means game not start yet and the surface will go to intro or lose or win screen
     else:   
         screen.fill((94,129,162)) 
 
