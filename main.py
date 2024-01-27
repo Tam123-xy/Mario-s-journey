@@ -48,10 +48,9 @@ def blocker_key():
         else:
             correct_key = 0
             time -=2
-            wrong.play()
+            pygame.mixer.Channel(3).play(wrong)
             print('Minus 2 seconds!')
             
-
 # Print the 6 blockes in one screen
 def show_blockers(blocker_index):
     coordinate = 200
@@ -237,7 +236,7 @@ pygame.time.set_timer(pygame.USEREVENT,1000)
 text = '20'.rjust(3)
 
 # Create variables
-game_active= False
+game_active = False
 correct_key = 0
 score = 0
 highest_score = 0
@@ -263,7 +262,8 @@ while True:
                 time +=2
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
-                addtime.play()
+                pygame.mixer.Channel(4).play(addtime)
+                # addtime.play()
 
             # Sound effects for some conditions
             if score == 0 and pygame.mixer.Channel.get_busy(pygame.mixer.Channel(0)) == False:
