@@ -63,23 +63,21 @@ def show_blockers(blocker_index):
         if blocker_index == 200:
                 blocker_index = 0
 
-# File save score
-def save_score(score, highest_score):
-    with open("score.txt", "w") as file:
-        file.write(f"{score}\n{highest_score}")  
+# File save highest score
+def save_h_score(highest_score):
+    f = open("h_score.txt", "w")
+    f.write(f'{highest_score}')  
+    f.close
 
-def load_score():
-    try:
-        with open("score.txt", "r") as file:
-            lines = file.readlines()
-            if len(lines) >= 2 :
-                score = 0
-                highest_score = int(lines[1].strip())
-                return score, highest_score
-            else:
-                return 0, 0
-    except FileNotFoundError:                        
-        return 0, 0
+# Import highest score
+def load_h_score():
+    f = open("h_score.txt", "r")
+    highest_score = (f.readline())
+    if highest_score == '':
+        highest_score = 0
+    else: highest_score = int(highest_score)
+    f.close
+    return highest_score
     
 # Game foundation
 pygame.init()
@@ -90,7 +88,7 @@ font = pygame.font.Font('font/font.ttf', 50)
 font2 = pygame.font.Font('font/font.ttf', 40)
 font3 = pygame.font.Font('font/font.ttf', 60)
 
-# Background music
+# Audios
 from pygame import mixer
 mixer.init()
 
@@ -249,7 +247,7 @@ while True:
             pygame.quit()
             exit()
         
-        # game_active = True, means game is start
+        # game_active = True, it means game is start
         if game_active: 
             # Timer
             if event.type == pygame.USEREVENT:
@@ -263,7 +261,6 @@ while True:
                 text = str (time).rjust(3)
                 print('Extra time! +2s')
                 pygame.mixer.Channel(4).play(addtime)
-                # addtime.play()
 
             # Sound effects for some conditions
             if score == 0 and pygame.mixer.Channel.get_busy(pygame.mixer.Channel(0)) == False:
@@ -294,7 +291,7 @@ while True:
              difference += 1
 
             # Save score and highest score every single blocker loop
-            save_score(score, highest_score)
+            save_h_score(highest_score)
  
         # game_active = False, it means game not start yet and the surface will go to intro or lose or win screen
         else: 
@@ -304,7 +301,7 @@ while True:
                 game_active = True 
                 
                 # Generate a random blocker list for player
-                blocker_image_random = random.choices(blocker_image, weights = [1, 1, 1], k= 201)
+                blocker_image_random = random.choices(blocker_image, weights = [1, 1, 1], k= 200)
 
                 # Initialize the variables again
                 score = 0
@@ -316,12 +313,11 @@ while True:
                 pygame.mixer.stop()
                 print("Here we go!")
 
-                # Input the previous score and highest score
-                score, highest_score = load_score()
+                highest_score = load_h_score()
 
 # Output (All about surfaces)
                 
-    # game_active = True, means game is start. 
+    # game_active = True, it  game is start. 
     if game_active:       
 
         # Game surface

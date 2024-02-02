@@ -6,9 +6,9 @@ The elements and characters used in the game are from 'Super Mario Bros,' but th
 The objective is to break the highest scores by passing through as many blockers as possible within 20 seconds.
 
 Blockers:
-Yellow Star: UP arrow key / key w
-Mushroom: DOWN arrow key / key s
-Turtle: RIGHT arrow key / key d
+Yellow Star : UP arrow key    / w key
+Mushroom    : DOWN arrow key  / s key
+Turtle      : RIGHT arrow key / d key
 
 - The game ends when the timer reaches zero. 
 - Pass through a blocker, the player gets one score.
